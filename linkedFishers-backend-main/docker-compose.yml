@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: server
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: "unless-stopped"
+    networks:
+      - backend
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: linkedfisher
+      MONGO_INITDB_ROOT_PASSWORD: abEeZVzn4HoNx21A
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  mongodb_data_container:
+
